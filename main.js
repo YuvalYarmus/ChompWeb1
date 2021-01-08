@@ -52,17 +52,17 @@ window.addEventListener("resize", () => {
 })
 
 function printMousePos(event) {
-    document.body.textContent +=
-      "clientX: " + event.clientX +
-      " - clientY: " + event.clientY;
+    console.log(`ClientX: 1 ${Mouse.x}, ClientY: ${Mouse.y}`)
 }
 
+const Mouse = {
+    x: null,
+    y: null 
+}
 
-  
-document.addEventListener("click", (event) => {
-    // document.body.textContent +=
-    //   "clientX: " + event.clientX +
-    //   " - clientY: " + event.clientY;
-    console.log("clientX: " + event.clientX +
-    " - clientY: " + event.clientY); 
-});
+window.addEventListener("mousemove", (event) => {
+    Mouse.x = event.x;
+    Mouse.y = event.y;
+})
+
+window.addEventListener("click", printMousePos)

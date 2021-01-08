@@ -1,0 +1,24 @@
+
+
+
+TO DO: 
+
+1. Make a generic draw function for each game state of n*m 
+
+2. figure how to "delete" a shape
+
+3. make a generic function which determines on which the user had clicked
+
+
+
+OPTION 2
+
+1. make a generic script to create a table of n*m
+
+2. create n*m canvases in the table
+
+3. each canvas can be filled with image that can be change on hover and have its own onclick call
+
+4. to remove a shape just delte the whole div in the table and whatever is included inside it
+
+

@@ -5,47 +5,30 @@ var game_state = [[true, true],[true, false], [true, true, true]]
         let row = table.insertRow();
         minigame.forEach(state => {
             let cell = row.insertCell();
-            var myGameArea = {
-                canvas : document.createElement("canvas"),
-                start : function() {
-                  this.canvas.width = 100;
-                  this.canvas.height = 50;
-                  this.context = this.canvas.getContext("2d");
-                //    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-                // document.body.insertBefore(this.canvas, cell);
-                //   this.interval = setInterval(updateGameArea, 20);
-                },
-                clear : function() {
-                  this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                }
-              }
+            let canvas = document.createElement("canvas")
+            canvas.width = 100;
+            canvas.height = 50;
+            let ctx = canvas.getContext("2d");
+
+            function printMousePos(event) {
+                console.log(`ClientX: ${Mouse.x}, ClientY: ${Mouse.y}`)
+            }
+            
+            const Mouse = {
+                x: null,
+                y: null 
+            }
+            
+            canvas.addEventListener("mousemove", (event) => {
+                Mouse.x = event.x;
+                Mouse.y = event.y;
+            })
+            
+            canvas.addEventListener("click", printMousePos)
 
 
-              function component(width, height, color, x, y) {
-                this.width = width;
-                this.height = height;
-                this.x = x;
-                this.y = y;
-                this.update = function(){
-                  ctx = myGameArea.context;
-                  ctx.fillStyle = color;
-                  ctx.fillRect(this.x, this.y, this.width, this.height);
-                }
-              }
-              
-              function updateGameArea() {
-                myGameArea.clear();
-                myGamePiece.update();
-              }
+            cell.appendChild(canvas); 
 
-
-
-
-            // let text = document.createTextNode(element[key]);
-            // cell.appendChild(text);
-            cell.appendChild(myGameArea.canvas); 
-            myGamePiece = new component(30, 30, "red", 10, 120);
-            myGameArea.start();
         });
     });
   }

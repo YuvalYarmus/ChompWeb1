@@ -4,16 +4,28 @@
     box-sizing: border-box;
 }
 
+h1 {
+    margin-left: 3%;
+    margin-top: 3%;
+}
+/* 
 #canvas {
     border: 2px solid black; 
-    /* margin: 0; */
+         margin: 0; 
     padding-left: 10px;
     margin-left: 10px;
-}
+} */
+
 
 canvas {
     border: 2px solid black; 
     /* margin: 0; */
-    padding-left: 10px;
-    margin-left: 10px;
+    padding: 20px;
+    margin-left: 5%;
+}
+
+table {
+    /* padding-block-start: 5%;
+    padding-inline-start: 5%; */
+    border-spacing: 30px;
 }

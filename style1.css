@@ -6,4 +6,7 @@
 
 #canvas {
     border: 2px solid black; 
+    /* margin: 0; */
+    padding-left: 10px;
+    margin-left: 10px;
 }

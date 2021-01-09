@@ -6,7 +6,7 @@
 
 h1 {
     margin-left: 3%;
-    margin-top: 3%;
+    margin-top: 1%;
 }
 /* 
 #canvas {
@@ -22,6 +22,7 @@ canvas {
     /* margin: 0; */
     padding: 20px;
     margin-left: 5%;
+    margin-top: 1%;
 }
 
 table {

@@ -40,14 +40,15 @@ window.addEventListener("load", () => {
     // const canvas = document.querySelector("#canvas");
     const ctx = canvas.getContext("2d");
 
-    canvas.height = window.innerHeight - window.innerHeight * 0.05; 
-    canvas.width = window.innerWidth - window.innerWidth * 0.05; 
+    canvas.height = window.innerHeight - window.innerHeight * 0.1-30; 
+    canvas.width = window.innerWidth - window.innerWidth * 0.1-30; 
 
 })
 
 window.addEventListener("resize", () => {
-    canvas.height = window.innerHeight - window.innerHeight * 0.05; 
-    canvas.width = window.innerWidth - window.innerWidth * 0.05; 
+    const canvas = document.getElementById("canvas");
+    canvas.height = window.innerHeight - window.innerHeight * 0.1-30; 
+    canvas.width = window.innerWidth - window.innerWidth * 0.1-30; 
     console.log("new canvas pos is: " + getElementPosText(canvas))
 })
 
@@ -60,9 +61,9 @@ const Mouse = {
     y: null 
 }
 
-window.addEventListener("mousemove", (event) => {
+canvas.addEventListener("mousemove", (event) => {
     Mouse.x = event.x;
     Mouse.y = event.y;
 })
 
-window.addEventListener("click", printMousePos)
+canvas.addEventListener("click", printMousePos)

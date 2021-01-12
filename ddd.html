@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas style="border: 2px solid black;margin-left: 10%; margin-top: 10%;" id="myCanvas" width="578" height="200"></canvas>
+    <script>
+      function writeMessage(canvas, message) {
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        context.font = '18pt Calibri';
+        context.fillStyle = 'black';
+        context.fillText(message, 10, 25);
+      }
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top
+        };
+      }
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+
+      canvas.addEventListener('mousemove', function(evt) {
+        var mousePos = getMousePos(canvas, evt);
+        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+        writeMessage(canvas, message);
+      }, false);
+    </script>
+  <script>"use strict";var wprRemoveCPCSS=function wprRemoveCPCSS(){var elem;document.querySelector('link[data-rocket-async="style"][rel="preload"]')?setTimeout(wprRemoveCPCSS,200):(elem=document.getElementById("rocket-critical-css"))&&"remove"in elem&&elem.remove()};window.addEventListener?window.addEventListener("load",wprRemoveCPCSS):window.attachEvent&&window.attachEvent("onload",wprRemoveCPCSS);</script><script type="text/javascript">
+  window._taboola = window._taboola || [];
+  _taboola.push({article:'auto'});
+  !function (e, f, u, i) {
+    if (!document.getElementById(i)){
+      e.async = 1;
+      e.src = u;
+      e.id = i;
+      f.parentNode.insertBefore(e, f);
+    }
+  }(document.createElement('script'),
+  document.getElementsByTagName('script')[0],
+  '//cdn.taboola.com/libtrc/pythoncentral/loader.js',
+  'tb_loader_script');
+  if(window.performance && typeof window.performance.mark == 'function')
+    {window.performance.mark('tbl_ic');}
+</script><script type="text/javascript">
+        window._taboola = window._taboola || [];
+        _taboola.push({
+          mode: 'thumbnails-b',
+          container: 'taboola-below-article-thumbnails',
+          placement: 'Below Article Thumbnails',
+          target_type: 'mix'
+        });
+      </script><script type="text/javascript">
+    window._taboola = window._taboola || [];
+    _taboola.push({flush: true});
+  </script><noscript><link data-avlabs-exclude-css="1"  rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT%20Sans%7CLato%3A400%2C700%2C400italic%2C700italic%7COswald%3A400%2C700&display=swap" /><link data-avlabs-exclude-css="1"  rel="stylesheet" href="https://www.html5canvastutorials.com/wp-content/cache/min/1/e583fe5bd2c3dfdfa3de3994662a3d4c.css" media="all" data-minify="1" /><link data-avlabs-exclude-css="1"  rel="stylesheet" href="/libraries/codeMirror/lib/codemirror.css"></noscript></body>
+</html>
+      

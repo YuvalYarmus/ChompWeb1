@@ -1,10 +1,15 @@
-var game_state = [[true, true],[true, false], [true, true, true]]
+
+// rules to game_state array: 
+// all the inner arrays must be in the same length
+// deleting a shape can be executed by changing its position to false and than redrawing
+var game_state = [[true, true, false],[true, true, false], [true, true, true]]
   
   function generateTable(table, game) {
     game.forEach(minigame => {
         let row = table.insertRow();
         minigame.forEach(state => {
-            let cell = row.insertCell();
+            if (state === true) {
+                let cell = row.insertCell();
             let canvas = document.createElement("canvas")
             canvas.width = 100;
             canvas.height = 50;
@@ -28,6 +33,8 @@ var game_state = [[true, true],[true, false], [true, true, true]]
 
 
             cell.appendChild(canvas); 
+            }
+            
 
         });
     });

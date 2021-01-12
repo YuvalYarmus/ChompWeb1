@@ -19,8 +19,7 @@ h1 {
 
 canvas {
     border: 2px solid black; 
-    /* margin: 0; */
-    padding: 20px;
+    position: relative;
     margin-left: 5%;
     margin-top: 1%;
 }

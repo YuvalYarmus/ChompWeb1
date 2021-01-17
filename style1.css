@@ -16,6 +16,13 @@ h1 {
     margin-left: 10px;
 } */
 
+.holder {
+    text-align:center;
+	font-family:Arial, sans-serif;
+	font-size:xx-large;
+	color:#aa7d4f;
+
+}
 
 canvas {
     border: 2px solid black; 

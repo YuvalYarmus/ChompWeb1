@@ -24,6 +24,14 @@ canvas {
     margin-top: 1%;
 }
 
+.holder {
+    text-align:center;
+	font-family:Arial, sans-serif;
+	font-size:xx-large;
+	color:#aa7d4f;
+
+}
+
 table {
     /* padding-block-start: 5%;
     padding-inline-start: 5%; */

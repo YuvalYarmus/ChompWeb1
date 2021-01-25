@@ -17,10 +17,10 @@ window.addEventListener("resize", promptGameState());
 
 canvas.addEventListener('click', (e) => {
   const CANVASpos = getMousePos(canvas, e);
-
-  for (const circle of shapes) {
+  console.log(`CLICK CLICK, SHAPES IS ${global_game_state.shapes}`)
+  for (const circle of global_game_state.shapes) {
     if (isIntersect(CANVASpos, circle) === true) {
-      if (circle.i === rows - 1 && circle.j === 0) {
+      if (circle.i === global_game_state.array.length - 1 && circle.j === 0) {
         ctx.clearRect(0, 0, width, height);
         console.log("THE GAME HAS ENDED")
         document.getElementById("Holder").textContent = `The game has ended in ${turns} turns, Player ${turns % 2 == 0 ? 2 : 1} won! `;
@@ -77,6 +77,26 @@ function updateGameStateArray(gameStateArray) {
 function updateGameStateShapes(gameStateShapes) {
   window.global_game_state.shapes = gameStateShapes;
 }
+
+class Shape {
+  
+  constructor(x, y, radius, i, j, shouldDraw = true) {
+    this.id = `${i}-${j}`; 
+    this.x = x; 
+    this.y = y; 
+    this.radius = radius; 
+    this.i = i; 
+    this.j = j; 
+    this.shouldDraw = shouldDraw; 
+  }
+
+
+  toString() {
+    return `draw is ${this.shouldDraw}, i is ${this.i}, j is ${this.j}`; 
+  }
+
+}
+
 
 
 function fitShapesToCanvas(currGameState, height, width, rows, shapes_in_row) {
@@ -141,6 +161,7 @@ function fitShapesToCanvas(currGameState, height, width, rows, shapes_in_row) {
     }
 
   }
+  window.updateGameStateShapes(shapes)
   return shapes;
 }
 
@@ -153,9 +174,9 @@ function createShapesByArray(currGameState) {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
+  canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
 
-  width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
+  canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
 
   console.log(`curr game state array is ${currGameState.array}`)
   let shapes = [];
@@ -163,7 +184,7 @@ function createShapesByArray(currGameState) {
   var shapes_in_row = currGameState[currGameState.length - 1].length;
   console.log(`shapes in row is ${shapes_in_row}`)
 
-  shapes = fitShapesToCanvas(currGameState, height, width, rows, shapes_in_row);
+  shapes = fitShapesToCanvas(currGameState, canvas.height, canvas.width, rows, shapes_in_row);
 
   drawShapes(shapes);
 }

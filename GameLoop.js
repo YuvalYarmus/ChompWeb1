@@ -3,6 +3,17 @@
 // deleting a shape can be executed by changing its position to false and than redrawing
 //var global_game_state = [[true, true, false, false],[true, true, false, false], [true, true, true, true], [true, false, true, true]]
 
+var global_game_state = {
+  array: [],
+  shapes: [],
+};
+
+let turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+window.addEventListener("resize", promptGameState());
 
 canvas.addEventListener('click', (e) => {
   const CANVASpos = getMousePos(canvas, e);
@@ -19,24 +30,15 @@ canvas.addEventListener('click', (e) => {
         turns++;
         console.log(`turns was updated. now it is ${turns}`)
         global_game_state.array = updateGameState(global_game_state.array, circle);
-        updateShapesDrawStateByArray(); 
-        drawGameState(global_game_state);
-        drawShapes(global_game_state.array); 
+        updateShapesDrawStateByArray();
+        //drawGameState(global_game_state);
+        drawShapes(global_game_state.array);
       }
 
     }
   }
 });
 
-
-var global_game_state = {
-  array: [],
-  shapes: [],
-};
-
-let turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
-
-window.addEventListener("resize", promptGameState());
 
 function promptGameState() {
   var matrix = [];
@@ -69,15 +71,16 @@ function promptGameState() {
 
 
 function updateGameStateArray(gameStateArray) {
-  window.global_game_state.array = gameStateArray; 
+  window.global_game_state.array = gameStateArray;
 }
 
 function updateGameStateShapes(gameStateShapes) {
-  window.global_game_state.shapes = gameStateShapes; 
+  window.global_game_state.shapes = gameStateShapes;
 }
 
 
-function fitShapesToCanvas(height, width, rows, shapes_in_row) {
+function fitShapesToCanvas(currGameState, height, width, rows, shapes_in_row) {
+  let shapes = [];
   // for a game in which width is smaller than height
   if (height > width) {
     console.log(`height mode\n`)
@@ -138,15 +141,18 @@ function fitShapesToCanvas(height, width, rows, shapes_in_row) {
     }
 
   }
-  window.updateGameStateShapes(shapes); 
-  return shapes; 
+  return shapes;
 }
 
 
 function createShapesByArray(currGameState) {
+  // this could should only run once in the beginning of each game
+  // it sets all values to true
+  // to change the shapes from true please use the updateShapesDrawStateByArray
+
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, width, height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
 
   width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
@@ -157,9 +163,9 @@ function createShapesByArray(currGameState) {
   var shapes_in_row = currGameState[currGameState.length - 1].length;
   console.log(`shapes in row is ${shapes_in_row}`)
 
-  shapes = fitShapesToCanvas(height, width, rows, shapes_in_row); 
+  shapes = fitShapesToCanvas(currGameState, height, width, rows, shapes_in_row);
 
-  drawShapes(shapes); 
+  drawShapes(shapes);
 }
 
 function updateShapesDrawStateByArray() {
@@ -168,7 +174,8 @@ function updateShapesDrawStateByArray() {
   }
 }
 
-function drawShapes(currGameState) {
+
+function drawShapesByGameState(currGameState) {
   console.log(`shapes is ${currGameState.shapes}`)
   for (const circle of currGameState.shapes) {
     if (circle.shouldDraw) {
@@ -180,7 +187,17 @@ function drawShapes(currGameState) {
   }
 }
 
-
+function drawShapes(shapes) {
+  console.log(`shapes is ${shapes}`)
+  for (const circle of shapes) {
+    if (circle.shouldDraw) {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+      ctx.fillStyle = "black";
+      ctx.fill();
+    }
+  }
+}
 
 
 

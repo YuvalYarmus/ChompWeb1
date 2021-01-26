@@ -1,0 +1,22 @@
+{
+  "name": "chompweb1",
+  "version": "1.0.0",
+  "description": "bob",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuvalYarmus/ChompWeb1.git"
+  },
+  "author": "Yuval Yarmus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YuvalYarmus/ChompWeb1/issues"
+  },
+  "homepage": "https://github.com/YuvalYarmus/ChompWeb1#readme",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}

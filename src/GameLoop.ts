@@ -41,8 +41,8 @@ interface GameState {
 }
 
 class GameStateObject implements GameState {
-  array: boolState = []; 
-  shapes: Shape[] = []; 
+  array: boolState = [];
+  shapes: Shape[] = [];
 }
 
 class Game {
@@ -52,7 +52,7 @@ class Game {
   // deleting a shape can be executed by changing its position to false and than redrawing
   //var global_game_state = [[true, true, false, false],[true, true, false, false], [true, true, true, true], [true, false, true, true]]
 
-  globalGameState: GameStateObject;
+  globalGameState: GameState;
 
   turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
 
@@ -61,13 +61,20 @@ class Game {
 
 
   constructor() {
-    // this.globalGameState = {
-    //   array: [],
-    //   shapes: []
-    // };
-    this.globalGameState = new GameStateObject(); 
+    this.globalGameState = {
+      array: [],
+      shapes: []
+    };
+    console.log(`globalGameState is ${this.globalGameState}`);
+    console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
+    //this.globalGameState = new GameStateObject(); 
+    console.log("\n\n"); this.printState(); console.log("\n\n"); this.printState();
 
     window.addEventListener("resize", () => {
+      console.log(`resize triggered. width: ${window.innerWidth}, height: ${window.innerHeight} `)
+      this.canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
+      this.canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
+      this.fitShapesToCanvas(this.canvas.height, this.canvas.width, this.globalGameState.array.length, this.globalGameState.array[0].length);
       this.drawShapes(this.globalGameState.shapes)
     });
     this.canvas.addEventListener('click', (e) => {
@@ -76,6 +83,7 @@ class Game {
       for (const circle of this.globalGameState.shapes) {
         if (this.isIntersect(CANVASpos, circle) === true) {
           if (circle.i === this.globalGameState.array.length - 1 && circle.j === 0) {
+            this.globalGameState.array = this.updateGameState(this.globalGameState.array, circle);
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             console.log("THE GAME HAS ENDED")
             document.getElementById("Holder")!.textContent = `The game has ended in ${this.turns} turns, Player ${this.turns % 2 == 0 ? 2 : 1} won! `;
@@ -93,16 +101,20 @@ class Game {
         }
       }
     });
-    window.addEventListener("load", this.promptGameState);
+    window.addEventListener("load", () => this.promptGameState());
   }
-
-  promptGameState() {
-    console.log(`globalGameState is ${this.globalGameState}`); 
+  printState() {
+    console.log(`globalGameState is ${this.globalGameState}`);
     console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
-    let n = parseInt(prompt("Please enter the amount of rows you want ") ?? "8");
-    let m = parseInt(prompt("Please enter the amount of columns you want ") ?? "5");
+  }
+  promptGameState() {
+    let n = (prompt("Please enter the amount of rows you want ") || 8);
+    let m = (prompt("Please enter the amount of columns you want ") || 5);
+    console.log(`globalGameState is ${this.globalGameState}`);
+    console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
     let arr: boolean[][] = []
     if (n != null && m != null) {
+      console.log(`n and m are ${n}-${m}`)
       for (let i = 0; i < n; i++) {
         //let arr2 = []
         arr.push([]); //arr[i] = [];
@@ -146,10 +158,10 @@ class Game {
         const curr_row = currGameState[i];
         for (let j = 0; j < curr_row.length; j++) {
           let curr_shape = curr_row[j];
-          if (curr_shape != null && curr_shape === true) {
+          if (curr_shape != null) {
             const x = Math.round(xI + r + j * (2 * r + xI));
             const y = Math.round(yI + r + i * (2 * r + yI));
-            let shape = new Shape(x, y, r, i, j, true);
+            let shape = new Shape(x, y, r, i, j, curr_shape);
             shapes.push(shape)
           }
         }
@@ -188,12 +200,10 @@ class Game {
     // it sets all values to true
     // to change the shapes from true please use the updateShapesDrawStateByArray
 
-    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    const ctx = canvas.getContext("2d")!;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
 
-    canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
+    this.canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
 
     console.log(`curr game state array is ${currGameState}`)
     let shapes = [];
@@ -201,7 +211,7 @@ class Game {
     var shapes_in_row = currGameState[currGameState.length - 1].length;
     console.log(`shapes in row is ${shapes_in_row}`)
 
-    shapes = this.fitShapesToCanvas(canvas.height, canvas.width, rows, shapes_in_row);
+    shapes = this.fitShapesToCanvas(this.canvas.height, this.canvas.width, rows, shapes_in_row);
 
     this.drawShapes(shapes);
   }
@@ -226,14 +236,16 @@ class Game {
   }
 
   drawShapes(shapes: Shape[] = this.globalGameState.shapes) {
-    console.log(`shapes is ${shapes}`)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    console.log(`shapes is ${shapes} \nin draw shapes\n`)
     for (const circle of shapes) {
-      if (circle.shouldDraw) {
+      if (circle.shouldDraw === true) {
         this.ctx.beginPath();
         this.ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
         this.ctx.fillStyle = "black";
         this.ctx.fill();
       }
+      else console.log("there is a false draw")
     }
   }
 
@@ -271,5 +283,5 @@ class Game {
 
 }
 
-console.clear(); 
+console.clear();
 const windowGame = new Game(); 

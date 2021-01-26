@@ -13,56 +13,64 @@ class Shape {
         return `draw is ${this.shouldDraw}, i is ${this.i}, j is ${this.j}`;
     }
 }
+class GameStateObject {
+    constructor() {
+        this.array = [];
+        this.shapes = [];
+    }
+}
 class Game {
     constructor() {
-        // rules to game_state array: 
-        // all the inner arrays must be in the same length
-        // deleting a shape can be executed by changing its position to false and than redrawing
-        //var global_game_state = [[true, true, false, false],[true, true, false, false], [true, true, true, true], [true, false, true, true]]
-        this.global_game_state = {
-            array: [],
-            shapes: [],
-        };
         this.turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
         this.canvas = document.getElementById("canvas");
         this.ctx = this.canvas.getContext("2d");
-        window.addEventListener("resize", this.promptGameState);
+        // this.globalGameState = {
+        //   array: [],
+        //   shapes: []
+        // };
+        this.globalGameState = new GameStateObject();
+        window.addEventListener("resize", () => {
+            this.drawShapes(this.globalGameState.shapes);
+        });
         this.canvas.addEventListener('click', (e) => {
             const CANVASpos = this.getMousePos(e);
-            console.log(`CLICK CLICK, SHAPES IS ${this.global_game_state.shapes}`);
-            for (const circle of this.global_game_state.shapes) {
+            console.log(`CLICK CLICK, SHAPES IS ${this.globalGameState.shapes}`);
+            for (const circle of this.globalGameState.shapes) {
                 if (this.isIntersect(CANVASpos, circle) === true) {
-                    if (circle.i === this.global_game_state.array.length - 1 && circle.j === 0) {
+                    if (circle.i === this.globalGameState.array.length - 1 && circle.j === 0) {
                         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                         console.log("THE GAME HAS ENDED");
                         document.getElementById("Holder").textContent = `The game has ended in ${this.turns} turns, Player ${this.turns % 2 == 0 ? 2 : 1} won! `;
                         break;
-                    }   
+                    }
                     else {
                         this.turns++;
                         console.log(`turns was updated. now it is ${this.turns}`);
-                        this.global_game_state.array = this.updateGameState(this.global_game_state.array, circle);
+                        this.globalGameState.array = this.updateGameState(this.globalGameState.array, circle);
                         this.updateShapesDrawStateByArray();
                         //drawGameState(global_game_state);
-                        this.drawShapes(this.global_game_state.shapes);
+                        this.drawShapes(this.globalGameState.shapes);
                     }
                 }
             }
         });
+        window.addEventListener("load", this.promptGameState);
     }
     promptGameState() {
         var _a, _b;
+        console.log(`globalGameState is ${this.globalGameState}`);
+        console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
         let n = parseInt((_a = prompt("Please enter the amount of rows you want ")) !== null && _a !== void 0 ? _a : "8");
         let m = parseInt((_b = prompt("Please enter the amount of columns you want ")) !== null && _b !== void 0 ? _b : "5");
         let arr = [];
         if (n != null && m != null) {
             for (let i = 0; i < n; i++) {
                 //let arr2 = []
-                arr[i] = [];
-                this.global_game_state.array[i] = [];
+                arr.push([]); //arr[i] = [];
+                this.globalGameState.array.push([]); //this.global_game_state.array[i] = []
                 for (let j = 0; j < m; j++) {
-                    arr[i][j] = true;
-                    this.global_game_state.array[i][j] = true;
+                    arr[i].push(true); // arr[i][j] = true;
+                    this.globalGameState.array[i].push(true); // this.global_game_state.array[i][j] = true;
                 }
                 console.log(`arr is now ${arr}\n`);
             }
@@ -72,13 +80,13 @@ class Game {
         }
     }
     updateGameStateArray(gameStateArray) {
-        this.global_game_state.array = gameStateArray;
+        this.globalGameState.array = gameStateArray;
     }
     updateGameStateShapes(gameStateShapes) {
-        this.global_game_state.shapes = gameStateShapes;
+        this.globalGameState.shapes = gameStateShapes;
     }
     fitShapesToCanvas(height, width, rows, shapes_in_row) {
-        const currGameState = this.global_game_state.array;
+        const currGameState = this.globalGameState.array;
         let shapes = [];
         // for a game in which width is smaller than height
         if (height > width) {
@@ -142,8 +150,8 @@ class Game {
         this.drawShapes(shapes);
     }
     updateShapesDrawStateByArray() {
-        for (const circle of this.global_game_state.shapes) {
-            circle.shouldDraw = this.global_game_state.array[circle.i][circle.j];
+        for (const circle of this.globalGameState.shapes) {
+            circle.shouldDraw = this.globalGameState.array[circle.i][circle.j];
         }
     }
     drawShapesByGameState(currGameState) {
@@ -157,7 +165,7 @@ class Game {
             }
         }
     }
-    drawShapes(shapes) {
+    drawShapes(shapes = this.globalGameState.shapes) {
         console.log(`shapes is ${shapes}`);
         for (const circle of shapes) {
             if (circle.shouldDraw) {
@@ -197,4 +205,5 @@ class Game {
         };
     }
 }
+console.clear();
 const windowGame = new Game();

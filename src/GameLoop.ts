@@ -69,18 +69,27 @@ class Game {
       this.color = "#dbdbdb"
     }
     else this.color = "black"; 
-    console.log("\n\n"); this.printState(); console.log("\n\n"); this.printState();
 
     window.addEventListener("resize", () => {
-      console.log(`resize triggered. width: ${window.innerWidth}, height: ${window.innerHeight} `)
-      this.canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
-      this.canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
-      this.fitShapesToCanvas(this.canvas.height, this.canvas.width, this.globalGameState.array.length, this.globalGameState.array[0].length);
-      this.drawShapes(this.globalGameState.shapes)
+      this.resizeFunc();
     });
+
     this.canvas.addEventListener('click', (e) => {
-      const CANVASpos = this.getMousePos(e);
-      console.log(`CLICK CLICK, SHAPES IS ${this.globalGameState.shapes}`)
+      this.clickFunc(e); 
+    });
+    window.addEventListener("load", () => this.promptGameState());
+  }
+
+  resizeFunc() {
+    this.canvas.height = Math.round((window.innerHeight - window.innerHeight * 0.1 - 30));
+    this.canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
+    console.log(`resize triggered. width: ${this.canvas.width}, height: ${this.canvas.height} `);
+    this.fitShapesToCanvas(this.canvas.height, this.canvas.width, this.globalGameState.array.length, this.globalGameState.array[0].length);
+    this.drawShapes(this.globalGameState.shapes);
+  }
+
+  clickFunc(e : MouseEvent) {
+    const CANVASpos = this.getMousePos(e);
       for (const circle of this.globalGameState.shapes) {
         if (this.isIntersect(CANVASpos, circle) === true) {
           if (circle.i === this.globalGameState.array.length - 1 && circle.j === 0) {
@@ -89,11 +98,15 @@ class Game {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             console.log("THE GAME HAS ENDED")
             document.getElementById("Holder")!.textContent = `The game has ended in ${this.turns} turns, Player ${this.turns % 2 == 0 ? 2 : 1} won! `;
+            // document.getElementById("Holder2")!.innerHTML = `<button class="bt" type="button">Would you like to play again? If so, click here!</button>`
+            // document.getElementById("Holder2")!.addEventListener("click", () => {
+            //   location.reload(); 
+            // }); 
+            document.getElementById("Holder2")!.setAttribute("x-data", "{ open: true }");
             break;
           }
           else {
             this.turns++;
-            console.log(`turns was updated. now it is ${this.turns}`)
             this.globalGameState.array = this.updateGameState(this.globalGameState.array, circle);
             this.updateShapesDrawStateByArray();
             this.drawShapes(this.globalGameState.shapes);
@@ -101,13 +114,8 @@ class Game {
 
         }
       }
-    });
-    window.addEventListener("load", () => this.promptGameState());
   }
-  printState() {
-    console.log(`globalGameState is ${this.globalGameState}`);
-    console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
-  }
+
   promptGameState() {
     let n = (prompt("Please enter the amount of rows you want ") || 8);
     let m = (prompt("Please enter the amount of columns you want ") || 5);
@@ -141,10 +149,11 @@ class Game {
     let shapes = [];
     // for a game in which width is smaller than height
     if (height > width) {
-      console.log(`height mode\n`)
+      console.log(`height mode\nwidth: ${width}, height: ${height}\n`)
       // we wish to leave 10% of the canvas for empty space padding
       let xI = Math.round(width * 0.1 / (shapes_in_row + 1)), xF = Math.round(width - xI);
-      const r = width * 0.9 / (2 * shapes_in_row);
+      //const r = width * 0.9 / (2 * shapes_in_row);
+      const r = width * 0.9 / (rows > shapes_in_row ? (2 * rows) : (shapes_in_row * 2));
 
       let yI = Math.round(height * 0.1 / (rows + 1)), yF = Math.round(height - yI)
 
@@ -163,19 +172,22 @@ class Game {
       }
     }
     else {
-      console.log(`width mode\n`)
-      console.log(`curr game state is ${currGameState} len is ${currGameState.length}`)
-      let xI = Math.round(width * 0.1 / (shapes_in_row + 1)), xF = Math.round(width - xI);
-      let yI = Math.round(height * 0.1 / (rows + 1)), yF = Math.round(height - yI);
+      console.log(`width mode\nwidth: ${width}, height: ${height}\n`)
+      // console.log(`curr game state is ${currGameState} len is ${currGameState.length}`)
+      //let xI = Math.round(width * 0.1 / (shapes_in_row + 1)), xF = Math.round(width - xI);
+      
       const r = height * 0.9 / (rows > shapes_in_row ? (2 * rows) : (shapes_in_row * 2));
+      let xI = Math.round( this.canvas.width *0.1 + r ); // - (2* r * (shapes_in_row - 1) ) 
+      let yI = Math.round(height * 0.1 / (rows + 1)), yF = Math.round(height - yI);
+      
       for (let i = currGameState.length - 1; i >= 0; i--) {
         const curr_row = currGameState[i];
-        console.log(`curr row in i[${i}] is [${curr_row}]`)
+        // console.log(`curr row in i[${i}] is [${curr_row}]`)
         for (let j = 0; j < curr_row.length; j++) {
           let curr_shape = curr_row[j];
-          console.log(`curr shape in i[${i}] j[${j}] is [${curr_row[j]}]`)
+          // console.log(`curr shape in i[${i}] j[${j}] is [${curr_row[j]}]`)
           if (curr_shape != null && curr_shape === true) {
-            const x = Math.round(xI + r + j * (2 * r + xI));
+            const x = Math.round(xI + r + j * (2 * r + width * 0.1 / (shapes_in_row + 1)));
             const y = Math.round(yI + r + i * (2 * r + yI))
             let shape = new Shape(x, y, r, i, j, true);
             shapes.push(shape)
@@ -230,7 +242,7 @@ class Game {
 
   drawShapes(shapes: Shape[] = this.globalGameState.shapes) {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    console.log(`shapes is ${shapes} \nin draw shapes\n`)
+    // console.log(`shapes is ${shapes} \nin draw shapes\n`)
     for (const circle of shapes) {
       if (circle.shouldDraw === true) {
         this.ctx.beginPath();
@@ -239,19 +251,19 @@ class Game {
         this.ctx.fillStyle = this.color;
         this.ctx.fill();
       }
-      else console.log("there is a false draw")
+      // else console.log("there is a false draw")
     }
   }
 
 
   updateGameState(currGameState: boolState, circle: Shape) {
     // all shapes above and to the right should be turned to false
-    console.log(`\ncircle is: ${circle.id} with x: ${circle.x} and y: ${circle.y}\n`);
+    // console.log(`\ncircle is: ${circle.id} with x: ${circle.x} and y: ${circle.y}\n`);
     for (let i = 0; i <= circle.i; i++) {
-      console.log(`curr game state in row ${i} ${currGameState[i]}`)
+      // console.log(`curr game state in row ${i} ${currGameState[i]}`)
       let curr_row = currGameState[i];
       for (let j = curr_row.length - 1; j >= circle.j; j--) {
-        console.log(`curr game state in shape ${j} ${currGameState[i][j]}`)
+        // console.log(`curr game state in shape ${j} ${currGameState[i][j]}`)
         curr_row[j] = false;
       }
     }
@@ -278,4 +290,4 @@ class Game {
 }
 
 console.clear();
-const windowGame = new Game(); 
+var game = new Game(); 

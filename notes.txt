@@ -1,0 +1,5 @@
+movign from typescript to js is done by npx tsc
+
+changing the css via tailwind is done using postcss style1.css -o final.css (dump to a new css file called final)
+
+to run both just run "npm run dev". configured in package.json

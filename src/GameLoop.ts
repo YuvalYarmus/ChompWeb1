@@ -56,7 +56,7 @@ class Game {
     array: [],
     shapes: []
   };
-
+  color: string; 
   turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
 
   canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -64,7 +64,11 @@ class Game {
 
 
   constructor() {
-
+    if ( window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      //document.documentElement.classList.add('dark')
+      this.color = "#dbdbdb"
+    }
+    else this.color = "black"; 
     console.log("\n\n"); this.printState(); console.log("\n\n"); this.printState();
 
     window.addEventListener("resize", () => {
@@ -80,6 +84,7 @@ class Game {
       for (const circle of this.globalGameState.shapes) {
         if (this.isIntersect(CANVASpos, circle) === true) {
           if (circle.i === this.globalGameState.array.length - 1 && circle.j === 0) {
+            this.turns++;
             this.globalGameState.array = this.updateGameState(this.globalGameState.array, circle);
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             console.log("THE GAME HAS ENDED")
@@ -230,7 +235,8 @@ class Game {
       if (circle.shouldDraw === true) {
         this.ctx.beginPath();
         this.ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-        this.ctx.fillStyle = "black";
+        // this.ctx.fillStyle = "black";
+        this.ctx.fillStyle = this.color;
         this.ctx.fill();
       }
       else console.log("there is a false draw")

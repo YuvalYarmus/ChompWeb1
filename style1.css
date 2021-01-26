@@ -1,13 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+.lol {
+    @apply bg-indigo-500 font-mono text-5xl dark:bg-indigo-900 dark:font-serif dark:text-3xl dark:text-white;
+    /* @apply bg-indigo-500 text-black font-semibold dark:bg-indigo-700 dark:text-white dark:text-5xl; */
+}
+
 h1 {
     margin-left: 4.5%;
     margin-top: 1%;
 }
+
 /* 
 #canvas {
     border: 2px solid black; 
@@ -21,7 +32,6 @@ h1 {
 	font-family:Arial, sans-serif;
 	font-size:xx-large;
 	color:#aa7d4f;
-
 }
 
 canvas {

@@ -51,8 +51,11 @@ class Game {
   // all the inner arrays must be in the same length
   // deleting a shape can be executed by changing its position to false and than redrawing
   //var global_game_state = [[true, true, false, false],[true, true, false, false], [true, true, true, true], [true, false, true, true]]
-
-  globalGameState: GameState;
+  
+  globalGameState: GameState = {
+    array: [],
+    shapes: []
+  };
 
   turns = 0; // if turns % 2 === 0 than it is player 1, if not - player 2
 
@@ -61,13 +64,7 @@ class Game {
 
 
   constructor() {
-    this.globalGameState = {
-      array: [],
-      shapes: []
-    };
-    console.log(`globalGameState is ${this.globalGameState}`);
-    console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
-    //this.globalGameState = new GameStateObject(); 
+
     console.log("\n\n"); this.printState(); console.log("\n\n"); this.printState();
 
     window.addEventListener("resize", () => {
@@ -94,7 +91,6 @@ class Game {
             console.log(`turns was updated. now it is ${this.turns}`)
             this.globalGameState.array = this.updateGameState(this.globalGameState.array, circle);
             this.updateShapesDrawStateByArray();
-            //drawGameState(global_game_state);
             this.drawShapes(this.globalGameState.shapes);
           }
 
@@ -110,23 +106,17 @@ class Game {
   promptGameState() {
     let n = (prompt("Please enter the amount of rows you want ") || 8);
     let m = (prompt("Please enter the amount of columns you want ") || 5);
-    console.log(`globalGameState is ${this.globalGameState}`);
-    console.log(`globalGameState.array is ${this.globalGameState.array} with len ${this.globalGameState.array.length}`);
     let arr: boolean[][] = []
     if (n != null && m != null) {
-      console.log(`n and m are ${n}-${m}`)
       for (let i = 0; i < n; i++) {
-        //let arr2 = []
-        arr.push([]); //arr[i] = [];
-        this.globalGameState.array.push([])  //this.global_game_state.array[i] = []
+        arr.push([]); 
+        this.globalGameState.array.push([])  
         for (let j = 0; j < m; j++) {
-          arr[i].push(true);  // arr[i][j] = true;
-          this.globalGameState.array[i].push(true)  // this.global_game_state.array[i][j] = true;
+          arr[i].push(true); 
+          this.globalGameState.array[i].push(true)  
         }
-        console.log(`arr is now ${arr}\n`)
       }
       console.log(`\n\n`)
-      //drawGameState(arr)
       this.createShapesByArray(arr)
     }
   }
@@ -205,11 +195,9 @@ class Game {
 
     this.canvas.width = Math.round((window.innerWidth - window.innerWidth * 0.1 - 30));
 
-    console.log(`curr game state array is ${currGameState}`)
     let shapes = [];
     var rows = currGameState.length;
     var shapes_in_row = currGameState[currGameState.length - 1].length;
-    console.log(`shapes in row is ${shapes_in_row}`)
 
     shapes = this.fitShapesToCanvas(this.canvas.height, this.canvas.width, rows, shapes_in_row);
 
@@ -224,7 +212,7 @@ class Game {
 
 
   drawShapesByGameState(currGameState: GameState) {
-    console.log(`shapes is ${currGameState.shapes}`)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     for (const circle of currGameState.shapes) {
       if (circle.shouldDraw) {
         this.ctx.beginPath();

@@ -10,19 +10,19 @@
 }
 
 .lol {
-    @apply bg-indigo-500 font-mono text-5xl dark:bg-indigo-900 dark:font-serif dark:text-3xl dark:text-white;
+    @apply bg-indigo-500 font-customBell text-5xl dark:bg-indigo-900 dark:font-serif dark:text-3xl dark:text-white;
     /* @apply bg-indigo-500 text-black font-semibold dark:bg-indigo-700 dark:text-white dark:text-5xl; */
 }
 
 .bt {
-    @apply flex items-end justify-center object-center font-serif text-black text-xl rounded-2xl dark:text-white-grayish
+    @apply flex items-end justify-center object-center font-customRoboto text-black text-xl rounded-2xl dark:text-white-grayish
 }
 
 
 
 /* src: url(/fonts/proxima-nova/400-regular.woff) format("woff"); */
 
-@font-face {
+/* @font-face { 
     font-family: "AllagiaDemo";
     font-weight: 400;
     src: url(Fonts/allagia/AllagiaDemo.ttf) format("ttf")
@@ -32,9 +32,11 @@
     font-family: "Bellefair";
     font-weight: 400;
     src: url(Fonts/Bellefair/Bellefair-Regular.ttf) format("ttf");
-}
+} */
 
-@import url('https://fonts.googleapis.com/css2?family=Cuprum&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Cuprum&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap'); */
 
 h1 {
     margin-left: 4.5%;

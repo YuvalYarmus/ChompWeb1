@@ -8,16 +8,59 @@
     <link rel="stylesheet" href="output/final.css" />
     <title>Chomp Online</title>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bellefair&display=swap" rel="stylesheet">
 
 </head>
 
 <body class="bg-white dark:bg-gray-800">
     <!-- <div class="bg-white dark:bg-gray-800"> -->
     <div class="lol">
-        <h1 class="text-gray-900 dark:text-white-grayish">Welcome to Chomp Online!!!</h1>
+        <h1 id="header" class="text-3xl text-gray-900 dark:text-10xl dark:text-white-grayish">Welcome to Chomp Online!!! </h1>
+        
+        <style>
+            .text-gradient-mint-blue-dark {
+                background: -webkit-linear-gradient(-70deg, #a2facf 0%, #64acff 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -webkit-box-decoration-break: clone;
+            }
+
+            #header {
+                background: -webkit-linear-gradient(-70deg, #b9ffde 0%, #3d98ff 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -webkit-box-decoration-break: clone;
+                font-size: 150%;
+                padding-top: 6px;
+                padding-bottom: 6 px;
+                box-sizing: border-box;
+            }
+
+            .text-gradient-mint-blue-light {
+                background: -webkit-linear-gradient(-70deg, #b9ffde 0%, #3d98ff 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -webkit-box-decoration-break: clone;
+            }
+
+            .div {
+                background: -webkit-linear-gradient(-70deg, #d18b8b 0%, #ee7a38 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+                -webkit-box-decoration-break: clone;
+            }
+        </style>
     </div>
-    <br><br><br>
+    <br>
     <div class="holder" id="Holder"></div><br><br>
     <canvas id="canvas"></canvas>
     <script src="output/GameLoop.js"></script>
@@ -60,15 +103,16 @@
                             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
                                 Do you wish to play another game? </h3>
                             <div class="mt-2">
-                                <p class="text-sm text-gray-500"> 
-                                    if you wish to play one more time feel free to press the play again button and restart the game.    
+                                <p class="text-sm text-gray-500">
+                                    if you wish to play one more time feel free to press the play again button and
+                                    restart the game.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button @click="open = false; setTimeout(() => window.location.reload() , 1000)" type="button"
+                    <button @click="open = false; setTimeout(() => window.location.reload() , 300)" type="button"
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
                         Play Again
                     </button>
@@ -82,8 +126,8 @@
     </div>
 
 
-    
-    
+    <br><br><br>
+
     <!-- <br><br><br><br><br>
     <h1 class="text-gray-900 dark:text-white">Dark mode is here!</h1>
     <p class="text-gray-600 dark:text-gray-300">

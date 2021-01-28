@@ -11,3 +11,7 @@ alpine js allows to write js pseudo code in html and it will take care of it for
 for more info: 
 
 https://github.com/alpinejs/alpine
+
+modal preview can be found here: 
+
+https://tailwindui.com/preview
